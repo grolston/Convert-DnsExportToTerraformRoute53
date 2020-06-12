@@ -1,4 +1,3 @@
-﻿
 function New-Route53Terraform {
     Param(
         # Param1 help description
