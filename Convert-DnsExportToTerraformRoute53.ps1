@@ -35,16 +35,13 @@ function New-Route53Terraform {
     return $text
 }
 
-
-function Convert-DnsExportToTerraformRoute53 {
-
 # .Synopsis
 #   Converts a DNS Export file to Terraform Route 53 file
 # .DESCRIPTION
 #   Takes a file that was exported from DNS provider and converts
 #   it to a terraform file to be used with AWS Route 53 to create
 #   all necessary records
-
+function Convert-DnsExportToTerraformRoute53 {
 Param(
         # Input File path of Exported DNS
         [Parameter(Mandatory=$true,
