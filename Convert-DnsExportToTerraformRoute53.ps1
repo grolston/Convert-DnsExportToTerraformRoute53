@@ -13,13 +13,13 @@ function New-Route53Terraform {
         # type of record (CNAME, A, etc)
         [string]
         $RecordType,
-        # Param2 help
+        # Record Value
         [string]
         $RecordValue,
         # Name of the Zone
         [string]
         $ZoneResourceName,
-        # Name of the Zone
+        # TTL given
         [string]
         $TTL
 
