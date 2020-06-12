@@ -6,7 +6,7 @@
                    Position=0)]
         $ResourceName,
 
-        # DNS value (e.g www) 
+        # DNS value (e.g www)
         [string]
         $RecordName,
         # type of record (CNAME, A, etc)
@@ -15,7 +15,7 @@
         # Param2 help
         [string]
         $RecordValue,
-        # Name of the Zone 
+        # Name of the Zone
         [string]
         $ZoneResourceName
 
@@ -32,14 +32,14 @@
 
 
 function Convert-DnsExportToTerraformRoute53 {
-<#
-.Synopsis
-   Converts a DNS Export file to Terraform Route 53 file
-.DESCRIPTION
-   Takes a file that was exported from DNS provider and converts
-   it to a terraform file to be used with AWS Route 53 to create
-   all necessary records
-#>
+
+# .Synopsis
+#   Converts a DNS Export file to Terraform Route 53 file
+# .DESCRIPTION
+#   Takes a file that was exported from DNS provider and converts
+#   it to a terraform file to be used with AWS Route 53 to create
+#   all necessary records
+
 Param(
         # Input File path of Exported DNS
         [Parameter(Mandatory=$true,
@@ -83,13 +83,13 @@ Param(
                 'tab' {$ParsedLine = $Line.Split("`t")}
             default {$ParsedLine = $Line.Split(" ")}
             }
-            
+
             $RecordName = $ParsedLine[0]
             $ResourceName = $ParsedLine[0].Replace(".", "-")
             $TTL = $ParsedLine[1]
             $RecordType = $ParsedLine[3]
             $RecordValue= $ParsedLine[4]
-  
+
             $TerraformString = New-Route53Terraform -ZoneResourceName $ZoneName -RecordName $RecordName -RecordType $RecordType -RecordValue $RecordValue -ResourceName $ResourceName
             switch ($RecordType) {
                 'MX' {$MXs += "`n" + $TerraformString }
