@@ -1,4 +1,5 @@
-﻿function New-Route53Terraform {
+﻿
+function New-Route53Terraform {
     Param(
         # Param1 help description
         [Parameter(Mandatory=$true,
@@ -17,14 +18,18 @@
         $RecordValue,
         # Name of the Zone
         [string]
-        $ZoneResourceName
+        $ZoneResourceName,
+        # Name of the Zone
+        [string]
+        $TTL
+
 
     )
     $text =  'resource "aws_route53_record" "' + $ResourceName + '" {' + "`n"
     $text +=  '  zone_id = "${aws_route53_zone.' + $ZoneResourceName + '.zone_id}"' + "`n"
     $text +=  '  name    = "' + $RecordName + '"' + "`n"
     $text +=  '  type    = "' + $RecordType + '"' + "`n"
-    $text +=  '  ttl     = "300"' + "`n"
+    $text +=  '  ttl     = "'+ $TTL +'"' + "`n"
     $text +=  '  records = ["' + $RecordValue + '"]' + "`n"
     $text +=  '}' + "`n"
     return $text
@@ -90,7 +95,7 @@ Param(
             $RecordType = $ParsedLine[3]
             $RecordValue= $ParsedLine[4]
 
-            $TerraformString = New-Route53Terraform -ZoneResourceName $ZoneName -RecordName $RecordName -RecordType $RecordType -RecordValue $RecordValue -ResourceName $ResourceName
+            $TerraformString = New-Route53Terraform -ZoneResourceName $ZoneName -RecordName $RecordName -RecordType $RecordType -RecordValue $RecordValue -ResourceName $ResourceName -TTL $TTL
             switch ($RecordType) {
                 'MX' {$MXs += "`n" + $TerraformString }
                 'CNAME' {$CNAMEs += "`n" + $TerraformString }
